@@ -58,6 +58,7 @@
      <Compile Include="Assets\02. Scripts\FollowCam.cs" />
      <Compile Include="Assets\02. Scripts\MonsterCtrl.cs" />
      <Compile Include="Assets\02. Scripts\PlayerCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\UIManager.cs" />
      <Compile Include="Assets\02. Scripts\WallCtrl.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/jungdo/Desktop/Programming/MyProject/_DevUnity/SpaceShooter/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
