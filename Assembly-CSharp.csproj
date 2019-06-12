@@ -53,13 +53,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\02. Scripts\BarrelCtrl.cs" />
-     <Compile Include="Assets\02. Scripts\BulletCtrl.cs" />
-     <Compile Include="Assets\02. Scripts\FollowCam.cs" />
-     <Compile Include="Assets\02. Scripts\MonsterCtrl.cs" />
-     <Compile Include="Assets\02. Scripts\PlayerCtrl.cs" />
-     <Compile Include="Assets\02. Scripts\UIManager.cs" />
-     <Compile Include="Assets\02. Scripts\WallCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\MyGizmo.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\BarrelCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\BulletCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\FollowCam.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\GameMgr.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\GameUICtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\MonsterCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\PlayerCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\WallCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scMain\UIManager.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/jungdo/Desktop/Programming/MyProject/_DevUnity/SpaceShooter/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>
