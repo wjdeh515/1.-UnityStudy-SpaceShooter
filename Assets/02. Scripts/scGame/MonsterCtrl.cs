@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityRandom = UnityEngine.Random;
 
 
 
@@ -122,54 +124,62 @@ public class MonsterCtrl : MonoBehaviour
         {
             //총알 제거
             Destroy(other.gameObject);
-
-            //goHit 애니메이션 실행 트리거인 isHit 트리거 작동
-            animator.SetTrigger("isHit");
-
-            //총알을 맞아 몬스터 맞은 부위에 혈흔 생성
-            GameObject bloodEffectInstance =  Instantiate(bloodEffect, other.transform.position, Quaternion.identity);
-            Destroy(bloodEffectInstance, 2.0f);
-
-
-            //총알을 맞은 몬스터 발바닥아래 데칼 혈흔 생성
-            Vector3 bloodDecalPos = other.transform.position;
-            bloodDecalPos.y = 0.05f;
-
-            Quaternion decalRot = Quaternion.Euler(90.0f, 0.0f, Random.Range(0, 360));
-            GameObject bloodDecalInstance = Instantiate(bloodDecal, bloodDecalPos, decalRot);
-            bloodDecalInstance.transform.localScale = Vector3.one * Random.Range(1.5f, 3.5f);
-
-            Destroy(bloodDecalInstance, 5.0f);
-
+            ShowHitEffect(other.transform.position);
             //총알 데미지 만큼 hp 차감
             monsterHp -= other.GetComponent<BulletCtrl>().bulletDamage;
 
             //몬스터 사망처리
             if (monsterHp <= 0)
             {
-                //사망 후 태그를 변경 하여 생성시 죽은 몬스터는 제외하고 생성가능
-                this.tag = "Untagged";
-
-                StopAllCoroutines();
-
-                isDie = true;
-                monsterState = MonsterState.Die;
-                nvAgent.isStopped = true;
-                animator.SetTrigger("isMonsterDie");
-
-
-                //콜라이더를 비활성화 함으로써 죽고난 뒤에 총알이 더이상 충돌하지 않도록 함
-                GetComponentInChildren<CapsuleCollider>().enabled = false;
-                foreach (Collider coll in GetComponentsInChildren<SphereCollider>())
-                    coll.enabled = false;
-
-                //플레이어 점수 획득
-                gameUiManager.PlusScore(50);
-
-                //몬스터 풀에 객체 환원
-                StartCoroutine(this.ReduceMonsterObject());
+                MonsterDie();
             }
         }
+    }
+
+    private void ShowHitEffect(Vector3 hitPosition)
+    {
+        //goHit 애니메이션 실행 트리거인 isHit 트리거 작동
+        animator.SetTrigger("isHit");
+
+        //총알을 맞아 몬스터 맞은 부위에 혈흔 생성
+        GameObject bloodEffectInstance = Instantiate(bloodEffect, hitPosition, Quaternion.identity);
+        Destroy(bloodEffectInstance, 2.0f);
+
+
+        //총알을 맞은 몬스터 발바닥아래 데칼 혈흔 생성
+        Vector3 bloodDecalPos = hitPosition;
+        bloodDecalPos.y = 0.05f;
+
+        Quaternion decalRot = Quaternion.Euler(90.0f, 0.0f, UnityRandom.Range(0, 360));
+        GameObject bloodDecalInstance = Instantiate(bloodDecal, bloodDecalPos, decalRot);
+        bloodDecalInstance.transform.localScale = Vector3.one * UnityRandom.Range(1.5f, 3.5f);
+
+        Destroy(bloodDecalInstance, 5.0f);
+    }
+
+    private void MonsterDie()
+    {
+        //사망 후 태그를 변경 하여 생성시 죽은 몬스터는 제외하고 생성가능
+        this.tag = "Untagged";
+
+        StopAllCoroutines();
+
+        isDie = true;
+        monsterState = MonsterState.Die;
+        nvAgent.isStopped = true;
+        animator.SetTrigger("isMonsterDie");
+
+
+        //콜라이더를 비활성화 함으로써 죽고난 뒤에 총알이 더이상 충돌하지 않도록 함
+        GetComponentInChildren<CapsuleCollider>().enabled = false;
+        foreach (Collider coll in GetComponentsInChildren<SphereCollider>())
+            coll.enabled = false;
+
+        //플레이어 점수 획득
+        gameUiManager.PlusScore(50);
+
+        //몬스터 풀에 객체 환원
+        StartCoroutine(this.ReduceMonsterObject());
     }
 
     /// <summary>
@@ -199,5 +209,18 @@ public class MonsterCtrl : MonoBehaviour
         StopAllCoroutines();
         nvAgent.isStopped = true;
         animator.SetTrigger("isPlayerDie");
+    }
+
+    void OnDamage(object[] _params)
+    {
+        ShowHitEffect((Vector3)_params[0]);
+
+        monsterHp -= (int)_params[1];
+
+        //몬스터 사망처리
+        if (monsterHp <= 0)
+        {
+            MonsterDie();
+        }
     }
 }

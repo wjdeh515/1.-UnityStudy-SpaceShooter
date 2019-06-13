@@ -59,6 +59,7 @@
      <Compile Include="Assets\02. Scripts\scGame\FollowCam.cs" />
      <Compile Include="Assets\02. Scripts\scGame\GameMgr.cs" />
      <Compile Include="Assets\02. Scripts\scGame\GameUICtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\LaserBeamCtrl.cs" />
      <Compile Include="Assets\02. Scripts\scGame\MonsterCtrl.cs" />
      <Compile Include="Assets\02. Scripts\scGame\PlayerCtrl.cs" />
      <Compile Include="Assets\02. Scripts\scGame\SoundMgr.cs" />

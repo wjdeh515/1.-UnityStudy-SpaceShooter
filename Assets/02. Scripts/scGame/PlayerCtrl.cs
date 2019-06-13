@@ -21,7 +21,7 @@ public class PlayerCtrl : MonoBehaviour
     
     public float moveSpeed = 10.0f;
     public float rotSpeed = 5.0f;
-    public float gunDelay = 0.3f;
+    public float gunDelay = 0.05f;
     public int Hp = 100;
     public Anims anims;
     public Transform firePos;
@@ -47,6 +47,8 @@ public class PlayerCtrl : MonoBehaviour
 
     void Update()
     {
+        Debug.DrawRay(this.firePos.position, firePos.forward * 10.0f, Color.green);
+
         h = Input.GetAxis("Horizontal");
         v = Input.GetAxis("Vertical");
 
@@ -66,9 +68,39 @@ public class PlayerCtrl : MonoBehaviour
 
         if (isFireOk == true && Input.GetButton("Fire1"))
         {
-            Instantiate(bullet, firePos.position, firePos.rotation);
+            //Instantiate(bullet, firePos.position, firePos.rotation); //이제 레이캐스팅을 사용하므로 안씀
             //gunFireAS.PlayOneShot(gunFireSound, 0.9f); //이제 단독으로 안씀 SoundMgr로 효과음 발생
             SoundMgr.instance.PlaySfx(firePos.position, gunFireSound);
+
+           
+
+            if (Physics.Raycast(firePos.position, firePos.forward, out RaycastHit hit, 10.0f))
+            {
+                switch (hit.collider.tag)
+                {
+                    case "MONSTER":
+                        {
+                            object[] _params = new object[2];
+                            _params[0] = hit.point; //맞은 위치
+                            _params[1] = 20;         //통에 입힐 데미지 값;
+
+                            hit.collider.gameObject.SendMessage("OnDamage", _params, SendMessageOptions.DontRequireReceiver);
+                        }
+                        break;
+                    case "BARREL":
+                        {
+                            object[] _params = new object[2];
+                            _params[0] = hit.point; //맞은 위치
+                            _params[1] = firePos.position ;         //레이의 입사각 계산을 위해 맞은점과 발사점 전달
+                            hit.collider.gameObject.SendMessage("OnDamage", _params, SendMessageOptions.DontRequireReceiver);
+
+                            
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             StartCoroutine(ShowMuzzleFlash());
             StartCoroutine(FireWaits());
@@ -78,19 +110,19 @@ public class PlayerCtrl : MonoBehaviour
 
     private IEnumerator FireWaits()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
 
         isFireOk = true;
     }
 
     private IEnumerator ShowMuzzleFlash()
     {
-        muzzleFlash.enabled = true;
+        muzzleFlash.gameObject.SetActive(true);
         muzzleFlash.transform.localScale = Vector3.one * Random.Range(1.0f, 2.0f);
         muzzleFlash.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0, 360));
 
         yield return new WaitForSeconds(UnityEngine.Random.Range(0.05f, 0.1f));
-        muzzleFlash.enabled = false;
+        muzzleFlash.gameObject.SetActive(false);
     }
 
     void OnTriggerEnter(Collider coll)
