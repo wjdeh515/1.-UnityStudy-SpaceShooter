@@ -2176,7 +2176,7 @@ GameObject:
   - component: {fileID: 1489549344}
   - component: {fileID: 1489549343}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2195,7 +2195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 877b0b5174109e64f8d333d47debf12a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterPrefabs: {fileID: 7036266006873231429, guid: 12cbb1a46ffdf3a41a6c6b799f902cd4,
+  monsterPrefab: {fileID: 7036266006873231429, guid: 12cbb1a46ffdf3a41a6c6b799f902cd4,
     type: 3}
   createTime: 2
   maxMonsterCount: 10
@@ -2214,6 +2214,49 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 19
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1560685625
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1560685627}
+  - component: {fileID: 1560685626}
+  m_Layer: 0
+  m_Name: SoundManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1560685626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560685625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0c2d1d71bf54e42923d8cf3d60eb19, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1560685627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560685625}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.8228183, y: -2.8154116, z: -1.7919426}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1733361868
 GameObject:
@@ -2730,7 +2773,7 @@ PrefabInstance:
     - target: {fileID: 1966440341787918614, guid: aed55a308dbbd5943b182b3cdde93b8e,
         type: 3}
       propertyPath: m_Name
-      value: Manager
+      value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 1966440341787918632, guid: aed55a308dbbd5943b182b3cdde93b8e,
         type: 3}

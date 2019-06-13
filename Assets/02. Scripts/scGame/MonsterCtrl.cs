@@ -37,31 +37,38 @@ public class MonsterCtrl : MonoBehaviour
     private Animator animator;
     private bool isDie = false;
 
-    
-
-    void Start()
+    void Awake()
     {
         monsterTr = GetComponent<Transform>();
         playerTr = GameObject.FindWithTag("Player").GetComponent<Transform>();
         gameUiManager = GameObject.Find("GameUI").GetComponent<GameUICtrl>();
         nvAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
-
-        //nvAgent.destination = playerTr.position;
-
-        StartCoroutine(CheckMonsterState());
-        StartCoroutine(ExecuteMonsterAction());
     }
 
+    /// <summary>
+    /// OnEnable 함수는 객체가 활성화 될 때마다 호출된다.
+    /// 몬스터 오브젝트 풀에서 꺼낸후 SetActive(true)로 주기때문에바로 아래 함수 실행가능
+    /// </summary>
     void OnEnable()
     {
         PlayerCtrl.OnPlayerDie += OnPlayerDie;
+
+        StartCoroutine(CheckMonsterState());
+        StartCoroutine(ExecuteMonsterAction());
     }
 
     void OnDisable()
     {
         PlayerCtrl.OnPlayerDie -= OnPlayerDie;
     }
+
+    void Start()
+    {
+
+    }
+
+    
 
     private IEnumerator ExecuteMonsterAction()
     {
@@ -157,10 +164,31 @@ public class MonsterCtrl : MonoBehaviour
                     coll.enabled = false;
 
                 //플레이어 점수 획득
-
                 gameUiManager.PlusScore(50);
+
+                //몬스터 풀에 객체 환원
+                StartCoroutine(this.ReduceMonsterObject());
             }
         }
+    }
+
+    /// <summary>
+    /// 몬스터를 GameMgr의 몬스터 오브젝트풀에 다시 환원 // 재삽입의 개념이 아닌 값을 초기상태로 만들어주는걸 의미함
+    /// </summary>
+    private IEnumerator ReduceMonsterObject()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        monsterState = MonsterState.Idle;
+        gameObject.SetActive(false);
+        tag = "MONSTER";
+        monsterHp = maxMonsterHp;
+        isDie = false;
+
+        foreach (Collider col in GetComponentsInChildren<SphereCollider>())
+            col.enabled = true;
+
+        GetComponentInChildren<CapsuleCollider>().enabled = true;
     }
 
     /// <summary>

@@ -37,9 +37,6 @@ public class PlayerCtrl : MonoBehaviour
     private Animation animationComponent;
     private AudioSource gunFireAS;
     private bool isFireOk = true;
-    
-
-
 
     void Start()
     {
@@ -70,7 +67,9 @@ public class PlayerCtrl : MonoBehaviour
         if (isFireOk == true && Input.GetButton("Fire1"))
         {
             Instantiate(bullet, firePos.position, firePos.rotation);
-            gunFireAS.PlayOneShot(gunFireSound, 0.9f);
+            //gunFireAS.PlayOneShot(gunFireSound, 0.9f); //이제 단독으로 안씀 SoundMgr로 효과음 발생
+            SoundMgr.instance.PlaySfx(firePos.position, gunFireSound);
+
             StartCoroutine(ShowMuzzleFlash());
             StartCoroutine(FireWaits());
             isFireOk = false;

@@ -61,6 +61,7 @@
      <Compile Include="Assets\02. Scripts\scGame\GameUICtrl.cs" />
      <Compile Include="Assets\02. Scripts\scGame\MonsterCtrl.cs" />
      <Compile Include="Assets\02. Scripts\scGame\PlayerCtrl.cs" />
+     <Compile Include="Assets\02. Scripts\scGame\SoundMgr.cs" />
      <Compile Include="Assets\02. Scripts\scGame\WallCtrl.cs" />
      <Compile Include="Assets\02. Scripts\scMain\UIManager.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">

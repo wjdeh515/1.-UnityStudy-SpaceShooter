@@ -6,7 +6,10 @@ public class GameMgr : MonoBehaviour
 {
     //몬스터 생성위치 배열
     private Transform[] points;
-    public GameObject monsterPrefabs;
+    public GameObject monsterPrefab;
+
+    //몬스터 풀
+    private List<GameObject> monsterPool = new List<GameObject>();
 
     //몬스터 발생 주기
     public float createTime = 2.0f;
@@ -32,7 +35,15 @@ public class GameMgr : MonoBehaviour
         if (points.Length > 0)
         {
             StartCoroutine(this.CreateMonster());
-            Debug.Log(points.Length);
+        }
+
+        //몬스터 풀에 저장
+        for (int i =0;i < maxMonsterCount; i++)
+        {
+            GameObject monsterIns = Instantiate(monsterPrefab);
+            monsterIns.SetActive(false); //Active false로 두어서 실제 게임상에선 보이지 않도록한다.
+            monsterIns.name = "monster_" + i;
+            monsterPool.Add(monsterIns);
         }
     }
 
@@ -47,7 +58,17 @@ public class GameMgr : MonoBehaviour
                 yield return new WaitForSeconds(createTime);
 
                 int randIndex = Random.Range(1, points.Length);
-                Instantiate(monsterPrefabs, points[randIndex].position, points[randIndex].rotation);
+
+
+                //비활성 오브젝트 찾기
+                GameObject inactiveMonsterObject = monsterPool.Find(x => x.activeSelf == false);
+
+                if(inactiveMonsterObject != null)
+                {
+                    inactiveMonsterObject.SetActive(true);
+                    inactiveMonsterObject.transform.position = points[randIndex].position;
+                    inactiveMonsterObject.transform.rotation = points[randIndex].rotation;
+                }
             }
             else
                 yield return null;
