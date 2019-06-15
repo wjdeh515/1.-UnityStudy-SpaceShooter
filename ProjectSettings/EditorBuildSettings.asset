@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/01. Scenes/scMain.unity
+    guid: 8984714e1b965324781c2859e07ae811
+  - enabled: 1
+    path: Assets/01. Scenes/scGame_Play.unity
+    guid: ab03d4d594a784e468f22e9c42877f36
+  - enabled: 1
+    path: Assets/01. Scenes/scGame_Stage.unity
+    guid: 3f6fb500e850233479f093a48016c41b
+  - enabled: 1
+    path: Assets/01. Scenes/scGame_backup.unity
+    guid: 40fd4756ae9c5a94199b0a90a04fdc09
   m_configObjects: {}
